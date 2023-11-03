@@ -114,4 +114,30 @@ output2 = map(list_norm_samples, mean_and_sd)
 output2
 ```
 
+## listcols in DFs
+
+```{r}
+listcol_df = 
+  tibble(
+    name = c("a", "b", "c", "d"),
+    sample = list_norm_samples
+  )
+
+listcol_df |> 
+  pull(sample)
+
+mean_and_sd(listcol_df$sample[[1]])
+mean_and_sd(listcol_df$sample[[2]])
+mean_and_sd(listcol_df$sample[[3]])
+mean_and_sd(listcol_df$sample[[4]])
+
+map(listcol_df$sample, mean_and_sd)
+
+listcol_df |> 
+  mutate(mean_sd = map(sample, mean_and_sd)) |> 
+  mutate(median = map(sample, median)) |> 
+  select(name, mean_sd) |> 
+  unnest(mean_sd)
+```
+
 
