@@ -159,3 +159,30 @@ sim_mean_sd(n_obs = 30, mu = 50, sigma = 12.3)
     ## 1  55.4  13.4
 
 Think about default values and positional matching.
+
+### Revisiting a past example
+
+``` r
+import_movie_data = function(path = "data/LotR_Words.xlsx", cell_range, movie_name) {
+  
+  movie_df = 
+    readxl::read_excel(path, range = cell_range) |> 
+    mutate(movie = movie_name) |> 
+    janitor::clean_names() |> 
+    pivot_longer(
+      female:male,
+      names_to = "sex",
+      values_to = "words"
+    )
+  
+  movie_df
+  
+}
+
+lotr_df = 
+  bind_rows(
+  import_movie_data(cell_range = "B3:D6", movie_name = "fellowship_ring"),
+  import_movie_data(cell_range = "F3:H6", movie_name = "two_towers" ),
+  import_movie_data(cell_range = "J3:L6", movie_name = "return_king")
+)
+```
