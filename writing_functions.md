@@ -78,3 +78,84 @@ Keep checking.
 
 #z_score(iris)
 ```
+
+### Multiple outputs
+
+Write a function that returns the mean and sd from a sample of numbers.
+
+``` r
+mean_and_sd = function(x) {
+  
+  if (!is.numeric(x)) {
+    
+    stop("Argument should be numbers")
+    
+  }  else if (length(x) < 2) {
+    
+    stop("You need at least 2 numbers to get z scores")
+    
+  }
+  
+  mean_x = mean(x)
+  
+  sd_x = sd(x)
+  
+  tibble(
+    mean = mean_x,
+    sd = sd_x
+  )
+}
+```
+
+Double check
+
+``` r
+mean_and_sd(x_vec)
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  5.02 0.250
+
+### Multiple inputs
+
+Start getting means and sds
+
+``` r
+x_vec = rnorm(n = 30, mean = 5, sd = 0.5)
+
+tibble(
+  mean = mean(x_vec),
+  sd = sd(x_vec)
+)
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  5.16 0.643
+
+Let’s write a function that uses `n`, a true mean, and true SD as
+inputs.
+
+``` r
+sim_mean_sd = function(n_obs, mu, sigma) {
+  
+  x_vec = rnorm(n = n_obs, mean = mu, sd = sigma)
+
+  tibble(
+    mean = mean(x_vec),
+    sd = sd(x_vec)
+)
+}
+
+sim_mean_sd(n_obs = 30, mu = 50, sigma = 12.3)
+```
+
+    ## # A tibble: 1 × 2
+    ##    mean    sd
+    ##   <dbl> <dbl>
+    ## 1  55.4  13.4
+
+Think about default values and positional matching.
